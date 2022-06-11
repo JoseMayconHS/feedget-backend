@@ -1,8 +1,8 @@
 import { ServiceMailer } from './../services/ServiceMailer'
-import { FeedbackRepository } from './../repositories/FeedbackRepository'
+import { FeedbackRepository, FeedbackRepositoryCreateDataType } from './../repositories/FeedbackRepository'
 
 interface ExecuteData {
-  type: string;
+  type: FeedbackRepositoryCreateDataType;
   comment: string;
   screenshot?: string;
 }
@@ -14,7 +14,15 @@ export class UseCaseSubmitFeedback {
   ) {}
 
   async execute(data: ExecuteData) {
-    const { type, comment, screenshot } = data;
+    const { type, comment, screenshot } = data
+
+    if (screenshot && !/^data:image[/]png;base64/.test(screenshot)) {
+      throw new Error('Invalid screenshot format')
+    }
+
+    if (!type || !comment) {
+      throw new Error('Type and/or comment are empty')
+    }
 
     const id = await this.feedbackRepository.create({ type, comment, screenshot })
 

@@ -1,7 +1,9 @@
+export type FeedbackRepositoryCreateDataType =  'BUG' | 'IDEA' | 'OTHER'
+
 export interface FeedbackRepositoryCreateData {
-  type: string,
-  comment: string,
-  screenshot?: string
+  type: FeedbackRepositoryCreateDataType;
+  comment: string;
+  screenshot?: string;
 }
 
 export interface FeedbackRepository {

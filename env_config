@@ -1,0 +1,4 @@
+DATABASE_URL="file:./dev.db"
+
+MAILTRAP_USER
+MAILTRAP_PASS

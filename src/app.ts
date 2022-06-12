@@ -1,11 +1,10 @@
 import express from 'express'
 
-import { routes } from './routes'
+import { middleware } from './controllers/middleware'
 
 const app = express()
 
-app.use(express.json())
-app.use(routes)
+middleware(app)
 
 export {
   app

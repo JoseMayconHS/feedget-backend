@@ -1,6 +1,7 @@
 export interface ServiceMailerConfig {
   subject: string,
-  body: string[]
+  body: string[],
+  screenshot?: string
 }
 
 export interface ServiceMailer {

@@ -5,6 +5,8 @@ import { PrismaFeedbackRepository } from '../../repositories/prisma/PrismaFeedba
 
 import { UseCaseSubmitFeedback } from "../../usecases/useCaseSubmitFeedback";
 
+import { FeedbackRepositoryCreateDataType } from "../../repositories/FeedbackRepository";
+
 type FeedbackBody = {
   type: string;
   comment: string;
@@ -12,8 +14,9 @@ type FeedbackBody = {
 };
 
 const post = async (req: Request, res: Response) => {
+
   try {
-    const { type, comment, screenshot } = req.body as FeedbackBody;
+    let { type, comment, screenshot } = req.body as FeedbackBody;
 
     const prismaFeedbackRepository = new PrismaFeedbackRepository()
     const nodemailerServiceMailer = new NodemailerServiceMailer()
@@ -22,10 +25,13 @@ const post = async (req: Request, res: Response) => {
       prismaFeedbackRepository, nodemailerServiceMailer
     )
 
-    const id = await useCaseSubmitFeedback.execute({ type, comment, screenshot })
+    const id = await useCaseSubmitFeedback.execute({
+      type: type as FeedbackRepositoryCreateDataType,
+      comment, screenshot
+    })
 
     const feedback = {
-      id, type, comment, screenshot
+      id, type, comment
     }
 
     res.status(201).json({ data: feedback });

@@ -32,6 +32,7 @@ export class UseCaseSubmitFeedback {
         `<p>Tipo do feedback: ${ type }</p>`,
         `<p>Comentário: ${ comment }</p>`,
       ],
+      screenshot
     });
 
     return id

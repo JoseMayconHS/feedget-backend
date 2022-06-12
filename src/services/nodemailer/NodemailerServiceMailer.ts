@@ -5,7 +5,7 @@ import { ServiceMailer, ServiceMailerConfig } from '../ServiceMailer'
 export class NodemailerServiceMailer implements ServiceMailer {
   async send(config: ServiceMailerConfig): Promise<void> {
 
-    const { subject, body: html } = config
+    const { subject, body: html, screenshot } = config
 
     const transport = nodemailer.createTransport({
       host: "smtp.mailtrap.io",
@@ -17,6 +17,13 @@ export class NodemailerServiceMailer implements ServiceMailer {
     })
 
     html.unshift("<div style='font-family: sans-serif; color: #222; fonte-weight: bold'>")
+
+    if (screenshot) {
+      html.push(`
+        <img width="300" src="${ screenshot }" />
+      `)
+    }
+
     html.push('</div>')
 
     const mailerConfig: nodemailer.SendMailOptions = {
